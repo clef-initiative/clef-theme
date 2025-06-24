@@ -1,17 +1,19 @@
 {{ define "hero" }}
     {{ $color := .Site.Params.color | default "stone" }}
     {{ $gray := .Site.Params.gray | default "stone" }}
-    {{ if .Params.image }}
+    {{ $image := .Params.image | default .Site.Params.hero_image | default "" }}
+    {{ if $image }}
       <div class="
         w-full
         h-64 md:h-72
-        bg-[url({{ .Params.image }})]
+        bg-[url({{ $image }})]
         bg-no-repeat
         bg-center
         bg-cover
         md:-mb-24
       "></div>
     <div class="
+        mt-4
         lg:rounded-t-4xl
         bg-{{ $gray }}-100 dark:bg-{{ $gray }}-900
         md:w-full lg:w-3xl
@@ -27,7 +29,7 @@
 <header class="space-y-4 mb-6">
 
     <!-- Page title -->
-    <h1 class="text-2xl md:text-4xl font-black text-{{ $gray }}-900 dark:text-{{ $gray }}-100 leading-tight">
+    <h1 class="text-4xl md:text-4xl font-black text-{{ $gray }}-900 dark:text-{{ $gray }}-100 leading-tight">
         {{ .Title }}
     </h1>
 
