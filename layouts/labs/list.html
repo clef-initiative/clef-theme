@@ -47,11 +47,11 @@
                 <footer class="pt-4">
                     {{ partial "button.html" (dict
                         "href" .RelPermalink
-                        "type" "outline"
+                        "type" "secondary"
                         "size" "sm"
                         "class" ""
                         "content" "Read Description"
-                        "icon" "→"
+                        "icon" ""
                     ) }}
                     {{ with .Params.url }}
                         {{ partial "button.html" (dict
@@ -60,7 +60,7 @@
                             "size" "sm"
                             "class" "ml-8"
                             "content" "Go to Lab page (external)"
-                            "icon" "→"
+                            "icon" ""
                         ) }}
                     {{ end }}
                 </footer>

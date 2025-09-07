@@ -5,7 +5,7 @@
 {{ $gray := .Site.Params.gray | default "stone" }}
 
 <!-- Page content wrapper -->
-<div class="space-y-6 py-8 px-4 flex-1 w-xl md:w-2xl">
+<div class="space-y-6 py-8 px-4 flex-1 w-xl md:w-2xl max-w-screen">
 
     <!-- Breadcrumbs navigation -->
     {{ partial "breadcrumbs.html" . }}
@@ -38,7 +38,7 @@
                     </h2>
 
                     <!-- Article summary -->
-                    <p class="text-{{ $gray }}-700 dark:text-{{ $gray }}-300 leading-relaxed">
+                    <p class="text-{{ $gray }}-700 dark:text-{{ $gray }}-300 leading-relaxed line-clamp-4">
                         {{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}
                     </p>
                 </header>
@@ -47,11 +47,10 @@
                 <footer class="pt-4">
                     {{ partial "button.html" (dict
                         "href" .RelPermalink
-                        "type" "outline"
+                        "type" "secondary"
                         "size" "sm"
                         "class" ""
                         "content" "Read More"
-                        "icon" "→"
                     ) }}
                 </footer>
 

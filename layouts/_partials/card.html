@@ -12,8 +12,8 @@ Usage:
 ) }}
 */}}
 
-{{ $color := $.Site.Params.color | default "stone" }}
-{{ $gray := $.Site.Params.gray | default "stone" }}
+{{ $color := site.Params.color | default "stone" }}
+{{ $gray := site.Params.gray | default "stone" }}
 
 {{ $title := .title }}
 {{ $footer := .footer }}

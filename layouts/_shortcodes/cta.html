@@ -1,27 +1,35 @@
-{{ $color := .Site.Params.color | default "stone" }}
-{{ $gray := .Site.Params.gray | default "stone" }}
-{{ $classes := "flex-1 rounded-xl text-center p-2 leading-8 font-semibold text-sm inline-flex gap-1 items-center justify-center no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500" }}
-{{ $colorClasses := printf "bg-%s-200 hover:bg-%s-600 dark:bg-%s-900 dark:hover:bg-%s-600 text-%s-900 hover:text-%s-100 dark:text-%s-200 dark:hover:text-%s-100 transition-colors" $color $color $color $color $color $color $color $color }}
-<div class="max-w-full h-12 my-12 flex flex-row gap-4">
+<div class="max-w-full my-12 flex flex-row gap-4 justify-center">
   {{ with .Site.GetPage "/calls" }}
     {{ with .RelPermalink }}
-    <a href="{{ . }}" role="button" class="{{ $classes }} {{ $colorClasses }}">
-      <span>View Calls</span>
-    </a>
+      {{ partial "button.html" (dict
+        "href" .
+        "type" "primary"
+        "size" "lg"
+        "class" ""
+        "content" "View Calls"
+      ) }}
     {{ end }}
   {{ end }}
   {{ with .Site.GetPage "/labs" }}
     {{ with .RelPermalink }}
-      <a href="{{ .  }}" role="button" class="{{ $classes }} {{ $colorClasses }}">
-        <span>Browse Labs</span>
-      </a>
-     {{ end }}
+      {{ partial "button.html" (dict
+        "href" .
+        "type" "primary"
+        "size" "lg"
+        "class" ""
+        "content" "Browse Labs"
+      ) }}
+    {{ end }}
   {{ end }}
   {{ with .Site.GetPage "/conference" }}
     {{ with .RelPermalink }}
-    <a href="{{ . }}" role="button" class="{{ $classes }} {{ $colorClasses }}">
-      <span>Conference Info</span>
-    </a>
+      {{ partial "button.html" (dict
+        "href" .
+        "type" "primary"
+        "size" "lg"
+        "class" ""
+        "content" "Conference Info"
+      ) }}
     {{ end }}
   {{ end }}
 </div>
