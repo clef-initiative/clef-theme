@@ -18,50 +18,49 @@
 
     <!-- Articles listing -->
     {{ if .Pages }}
-    <section class="space-y-4" aria-label="Articles">
-
-        <!-- Articles container -->
+    <section aria-label="Labs">
+        <!-- Labs container -->
         <div class="border-t-4 border-{{ $gray }}-200 dark:border-{{ $gray }}-800">
             {{ range (.Paginate .Pages).Pages }}
-            <article class="border-b-4 border-{{ $gray }}-200 dark:border-{{ $gray }}-800 py-4 first:pt-6 last:border-b-0 last:pb-0">
-
-                <!-- Article header -->
-                <header class="space-y-2">
-                   <div class="flex">
-                      <h2 class="text-xl flex-auto gap-1 font-semibold text-{{ $gray }}-900 dark:text-{{ $gray }}-100">
-                          <a
-                              href="{{ .RelPermalink }}"
-                              class="hover:text-{{ $gray }}-600 dark:hover:text-{{ $gray }}-400 transition-colors"
-                              aria-label="Read article: {{ .Title }}"
-                          >
-                              {{ .Title }}
-                          </a>
-                      </h2>
-                        {{ partial "button.html" (dict
-                            "href" .RelPermalink
-                            "type" "ghost"
-                            "size" "xs"
-                            "class" "flex-none"
-                            "content" "Read Description"
-                            "icon" ""
-                        ) }}
-                        {{ with .Params.url }}
+            <article class="border-b-4 border-{{ $gray }}-200 dark:border-{{ $gray }}-800">
+                <details class="space-y-2 open:[&_svg]:rotate-360  cursor-pointer py-4">
+                   <!-- Lab title + link -->
+                    <summary class="flex mt-2 select-none text-{{ $gray }}-900 dark:text-{{ $gray }}-100 hover:text-{{ $gray }}-600 dark:hover:text-{{ $gray }}-400">
+                      <!-- notice here, we added our own triangle/arrow svg -->
+                        <div class="flex-none mr-2 my-auto">
+                          <svg class="rotate-270 transform transition-rotate duration-100" fill="none" height="20" width="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                          </svg>
+                        </div>
+                        <h2 class="text-xl flex-auto my-auto font-semibold transition-color duration-100">
+                          {{ .Title }}
+                        </h2>
+                            {{ with .Params.url }}
                             {{ partial "button.html" (dict
                                 "href" .
                                 "type" "secondary"
-                                "size" "xs"
-                                "class" "flex-none ml-4"
+                                "size" "sm"
+                                "class" "flex-none ml-4 my-0"
                                 "content" "Go to Lab page (external)"
                                 "icon" ""
                             ) }}
-                        {{ end }}
-                   </div>
-                   <!-- Article summary -->
-                   <div class="text-sm text-{{ $gray }}-700 dark:text-{{ $gray }}-300 leading-relaxed">
-                     {{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}
-                   </div>
-                </header>
-
+                            {{ end }}
+                    </summary>
+                    <!-- Lab abstract -->
+                    <p class="text-sm mt-3 text-{{ $gray }}-700 dark:text-{{ $gray }}-300 leading-relaxed overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="mb-4 text-justify">
+                        {{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}
+                        </div>
+                        {{ partial "button.html" (dict
+                            "href" .RelPermalink
+                            "type" "secondary"
+                            "size" "sm"
+                            "class" "flex-none"
+                            "content" "Read more"
+                            "icon" ""
+                         ) }}
+                    </p>
+              </details>
             </article>
             {{ end }}
         </div>
