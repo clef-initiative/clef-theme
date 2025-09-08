@@ -30,7 +30,7 @@
 {{ $color := site.Params.color | default "stone" }}
 {{ $gray := site.Params.gray | default "stone" }}
 
-{{ $baseClass := "box-content inline-flex items-baseline justify-center text-center font-semibold rounded-xl transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500" }}
+{{ $baseClass := "box-content inline-flex align-middle items-center justify-center text-center font-semibold rounded-xl transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500" }}
 
 {{ $typeClass := "" }}
 {{ if eq $type "primary" }}
@@ -50,7 +50,11 @@
 {{ $sizeClass := "" }}
 {{ $iconClass := "" }}
 {{ $gapClass := "" }}
-{{ if eq $size "sm" }}
+{{ if eq $size "xs" }}
+  {{ $sizeClass = "px-2 py-1 text-xs" }}
+  {{ $iconClass = "text-xs" }}
+  {{ $gapClass = "gap-1" }}
+{{ else if eq $size "sm" }}
   {{ $sizeClass = "px-3 py-2 text-sm" }}
   {{ $iconClass = "text-sm" }}
   {{ $gapClass = "gap-2" }}
