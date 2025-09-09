@@ -7,7 +7,7 @@
     dark:border-{{ $gray }}-800
     p-4
 ">
-  <div class="md:max-w-2xl max-w-full mx-auto px-4 flex flex-row justify-between items-center gap-4">
+  <div class="md:max-w-2xl max-w-full mx-auto px-4 flex flex-row justify-between items-top gap-4">
     <!-- Element 2: CLEF Initiative Logo -->
     <div class="flex-1">
         <svg class="
@@ -63,7 +63,7 @@
     <!-- Element 3: Main Navigation -->
     <div class="flex-1">
       {{ if .Site.Menus.main }}
-      <nav class="flex flex-col gap-4" aria-label="Footer navigation">
+      <nav class="flex flex-col gap-3" aria-label="Footer navigation">
         {{ range .Site.Menus.main }}
         <a
                 href="{{ .URL }}"
@@ -79,7 +79,7 @@
     <!-- Element 4: Footer Navigation -->
     <div class="flex-1">
       {{ if .Site.Menus.footer }}
-      <nav class="flex flex-col gap-4" aria-label="Footer navigation">
+      <nav class="flex flex-col gap-3" aria-label="Footer navigation">
         {{ range .Site.Menus.footer }}
         <a
                 href="{{ .URL }}"

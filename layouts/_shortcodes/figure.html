@@ -11,9 +11,9 @@
 
 {{ $floatClasses := "" }}
 {{ if eq $float "left" }}
-  {{ $floatClasses = "md:float-left md:mr-6 md:mb-4 md:clear-left mx-auto mb-6" }}
+  {{ $floatClasses = "md:float-left md:mr-6 md:clear-left mx-auto" }}
 {{ else if eq $float "right" }}
-  {{ $floatClasses = "md:float-right md:ml-6 md:mb-4 md:clear-right mx-auto mb-6" }}
+  {{ $floatClasses = "md:float-right md:ml-6 md:clear-right mx-auto" }}
 {{ else }}
   {{ $floatClasses = "mx-auto mb-6 clear-both" }}
 {{ end }}
@@ -37,10 +37,10 @@
   {{ $widthClasses = "w-full" }}
 {{ end }}
 
-{{ $allClasses := printf "%s %s %s" $widthClasses $floatClasses $classes }}
+{{ $allClasses := printf "m-0 p-0 %s %s %s" $widthClasses $floatClasses $classes }}
 
 <!-- Image figure component -->
-<figure class="{{ $allClasses }} group" itemscope itemtype="https://schema.org/ImageObject">
+<figure class="{{ $allClasses }}" itemscope itemtype="https://schema.org/ImageObject">
 
   <!-- Image element -->
   <div class="overflow-hidden rounded-xl">
@@ -55,6 +55,7 @@
       {{ end }}
       itemprop="contentUrl"
     />
+    <!-- Attribution overlay -->
     {{ if $attribution }}
       <div class="bg-black/70 text-white text-right text-xs -mt-12 px-2 py-1 rounded-b-xl backdrop-blur-sm opacity-50 hover:opacity-100 transition-opacity duration-200">
         {{ $attribution | markdownify }}
@@ -62,12 +63,10 @@
     {{ end }}
   </div>
 
-  <!-- Attribution overlay -->
-
   <!-- Image caption -->
   {{ if $caption }}
     <figcaption
-      class="mt-1 px-2 text-sm text-{{ $gray }}-600 dark:text-{{ $gray }}-400 text-center leading-relaxed"
+      class="m-0 pt-1 text-sm text-{{ $gray }}-600 dark:text-{{ $gray }}-400 text-center leading-relaxed"
       id="caption-{{ $src | urlize }}"
       itemprop="caption"
     >

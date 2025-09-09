@@ -1,12 +1,12 @@
-<div class="max-w-full my-12 flex flex-row gap-4 justify-center">
+<div class="max-w-none my-12 flex flex-row flex-wrap gap-4 justify-center">
   {{ with .Site.GetPage "/calls" }}
     {{ with .RelPermalink }}
       {{ partial "button.html" (dict
         "href" .
         "type" "primary"
-        "size" "sm"
-        "class" ""
-        "content" "View Calls"
+        "size" "md"
+        "class" "w-24 h-12"
+        "content" "Calls for Participation"
       ) }}
     {{ end }}
   {{ end }}
@@ -15,9 +15,9 @@
       {{ partial "button.html" (dict
         "href" .
         "type" "primary"
-        "size" "sm"
-        "class" ""
-        "content" "Browse Labs"
+        "size" "md"
+        "class" "w-24 h-12"
+        "content" "Evaluation Labs"
       ) }}
     {{ end }}
   {{ end }}
@@ -26,9 +26,20 @@
       {{ partial "button.html" (dict
         "href" .
         "type" "primary"
-        "size" "sm"
-        "class" ""
+        "size" "md"
+        "class" "w-24 h-12"
         "content" "Conference Info"
+      ) }}
+    {{ end }}
+  {{ end }}
+  {{ with .Site.GetPage "/dates" }}
+    {{ with .RelPermalink }}
+      {{ partial "button.html" (dict
+        "href" .
+        "type" "primary"
+        "size" "md"
+        "class" "w-24 h-12"
+        "content" "Important Dates"
       ) }}
     {{ end }}
   {{ end }}
