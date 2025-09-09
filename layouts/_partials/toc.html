@@ -3,8 +3,7 @@
 
 {{ if .Params.toc }}
 
-<nav class="mb-8 p-6 bg-{{ $gray }}-50 dark:bg-{{ $gray }}-800 rounded-lg border border-{{ $gray }}-200 dark:border-{{ $gray }}-700">
-  <h3 class="text-md font-semibold mb-4 text-{{ $gray }}-900 dark:text-{{ $gray }}-100">Table of Contents</h3>
+<nav class="mb-4 p-2 bg-{{ $gray }}-50 dark:bg-{{ $gray }}-800 rounded-lg border border-{{ $gray }}-200 dark:border-{{ $gray }}-700">
   <div class="toc-content text-{{ $gray }}-700 dark:text-{{ $gray }}-300">
     {{ .TableOfContents }}
   </div>
