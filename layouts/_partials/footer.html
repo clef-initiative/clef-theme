@@ -82,9 +82,9 @@
       <nav class="flex flex-col gap-3" aria-label="Footer navigation">
         {{ range .Site.Menus.footer }}
         <a
-                href="{{ .URL }}"
-                class="text-sm text-{{ $gray }}-600 dark:text-{{ $gray }}-400 hover:text-{{ $gray }}-900 dark:hover:text-{{ $gray }}-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
-                {{ if strings.HasPrefix .URL "http" }}target="_blank" rel="noopener noreferrer"{{ end }}
+          href="{{ .URL }}"
+          class="text-sm text-{{ $gray }}-600 dark:text-{{ $gray }}-400 hover:text-{{ $gray }}-900 dark:hover:text-{{ $gray }}-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+          {{ if strings.HasPrefix .URL "http" }}target="_blank" rel="noopener noreferrer"{{ end }}
         >
         {{ .Name }}
         </a>
@@ -94,16 +94,17 @@
     </div>
   </div>
   <div class="md:max-w-2xl max-w-full mx-auto py-2 flex flex-row justify-between items-center gap-4 mt-8">
-    <!-- Element 1: Dark mode toggle -->
+    <!-- Github -->
     <span class="text-sm text-{{ $gray }}-400">© {{ with .Site.Copyright }}{{ . | markdownify}}{{ end }}</span>
     {{ with .Site.Params.repo }}
-    <a class="flex gap-2 text-{{ $gray }}-400" href="{{ . }}">
-      <svg class="size-5 flex-none" viewBox="0 0 24 24" fill="currentColor">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7071 2.70711L13.4142 4H14C17.3137 4 20 6.68629 20 10V16.1707C21.1652 16.5825 22 17.6938 22 19C22 20.6569 20.6569 22 19 22C17.3431 22 16 20.6569 16 19C16 17.6938 16.8348 16.5825 18 16.1707V10C18 7.79086 16.2091 6 14 6H13.4142L14.7071 7.29289C15.0976 7.68342 15.0976 8.31658 14.7071 8.70711C14.3166 9.09763 13.6834 9.09763 13.2929 8.70711L10.2929 5.70711C9.90237 5.31658 9.90237 4.68342 10.2929 4.29289L13.2929 1.29289C13.6834 0.902369 14.3166 0.902369 14.7071 1.29289C15.0976 1.68342 15.0976 2.31658 14.7071 2.70711ZM18 19C18 18.4477 18.4477 18 19 18C19.5523 18 20 18.4477 20 19C20 19.5523 19.5523 20 19 20C18.4477 20 18 19.5523 18 19ZM6 4C5.44772 4 5 4.44772 5 5C5 5.55228 5.44772 6 6 6C6.55228 6 7 5.55228 7 5C7 4.44772 6.55228 4 6 4ZM7 7.82929C8.16519 7.41746 9 6.30622 9 5C9 3.34315 7.65685 2 6 2C4.34315 2 3 3.34315 3 5C3 6.30622 3.83481 7.41746 5 7.82929V16.1707C3.83481 16.5825 3 17.6938 3 19C3 20.6569 4.34315 22 6 22C7.65685 22 9 20.6569 9 19C9 17.6938 8.16519 16.5825 7 16.1707V7.82929ZM6 18C5.44772 18 5 18.4477 5 19C5 19.5523 5.44772 20 6 20C6.55228 20 7 19.5523 7 19C7 18.4477 6.55228 18 6 18Z" />
+    <a class="p-3 rounded-xl flex gap-2 text-{{ $gray }}-600 dark:text-{{ $gray }}-400 hover:text-{{ $gray }}-900 dark:hover:text-{{ $gray }}-100 hover:bg-{{ $gray }}-50 dark:hover:bg-{{ $gray }}-800 transition-colors" href="{{ . }}">
+      <svg class="size-5 flex-none" viewBox="0 0 96 96" fill="currentColor">
+        <path d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" />
       </svg>
       <span class="text-sm flex-1">Source</span>
     </a>
     {{ end }}
+    <!-- Dark mode toggle -->
     <a
       onclick="toggleTheme()"
       class="
