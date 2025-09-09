@@ -37,12 +37,12 @@
                         </div>
 
                         {{ with .Params.subtitle }}
-                        <div class="flex items-center text-sm text-{{ $gray }}-700 dark:text-{{ $gray }}-300 font-light ml-6 md:ml-0 md:h-10 flex-3/4 md:flex-4 order-3 md:order-2 md:my-auto transition-color duration-100">
+                        <div class="flex items-center text-sm text-{{ $gray }}-700 dark:text-{{ $gray }}-300 font-light ml-7 md:ml-0 md:h-10 flex-3/4 md:flex-4 order-3 md:order-2 md:my-auto transition-color duration-100">
                           <span>{{ . }}</span>
                         </div>
                         {{ end }}
 
-                        <div class="md:my-auto ml-6 md:ml-0 flex-none md:flex-1 md:text-right order-2 md:order-3">
+                        <div class="md:my-auto flex-none md:flex-1 md:text-right order-2 md:order-3">
                         {{ with .Params.url }}
                           {{ partial "button.html" (dict
                               "href" .
