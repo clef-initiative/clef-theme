@@ -6,11 +6,11 @@
 
 {{ if $dateData }}
   <!-- Dates table component -->
-  <div class="max-w-full rounded-xl border border-{{ $gray }}-200 dark:border-{{ $gray }}-700 bg-{{ $gray }}-50 dark:bg-{{ $gray }}-800">
+  <div class="overflow-hidden max-w-full rounded-xl border border-{{ $gray }}-200 dark:border-{{ $gray }}-700 bg-{{ $gray }}-50 dark:bg-{{ $gray }}-800">
 
     <!-- Table container -->
     <div class="overflow-x-auto">
-      <table class="min-w-full mt-1 mb-0 divide-y divide-{{ $gray }}-200 dark:divide-{{ $gray }}-700">
+      <table class="min-w-full mt-1 mb-0">
 
         <!-- Table header -->
         <thead>
@@ -28,7 +28,7 @@
         </thead>
 
         <!-- Table body -->
-        <tbody class="divide-y divide-{{ $gray }}-200 dark:divide-{{ $gray }}-700">
+        <tbody class="">
           {{ range $index, $item := $dateData.dates }}
             {{ $eventDate := time $item.date }}
             {{ $today := now }}
