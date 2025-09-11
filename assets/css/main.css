@@ -5,7 +5,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Outfit", sans-serif;
+  --font-sans: "Outfit", "Helvetica Neue", sans-serif;
 }
 
 details summary::-webkit-details-marker {
