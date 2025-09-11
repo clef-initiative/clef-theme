@@ -11,7 +11,7 @@
 {{ $width := .Get "width" | default "100%" }}
 {{ $mapId := printf "map-%s" now.UnixNano }}
 
-{{ $grayClasses := printf "border border-%s-200 bg-%s-100 text-%s-900 hover:bg-%s-50 dark:bg-%s-800 dark:text-%s-100 dark:hover:bg-%s-600" $gray $gray $gray $gray $gray $gray $gray }}
+{{ $grayClasses := printf "border-4 border-%s-200 bg-%s-50 text-%s-900 dark:bg-%s-800 dark:text-%s-100" $gray $gray $gray $gray $gray }}
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v8.2.0/ol.css" type="text/css">
 <script src="https://cdn.jsdelivr.net/npm/ol@v8.2.0/dist/ol.js"></script>
@@ -69,11 +69,12 @@
     image: new ol.style.Icon({
       anchor: [0.5, 1],
       src: 'data:image/svg+xml;base64,' + btoa(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="120" height="120">
           <path fill="#EA102B" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
           <path fill="white" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
         </svg>
-      `)
+      `),
+      scale: 0.3,
     })
   });
 
@@ -97,7 +98,7 @@
     element: document.createElement('div'),
     positioning: 'bottom-center',
     stopEvent: false,
-    offset: [0, -24]
+    offset: [0, -38]
   });
 
   popup.getElement().innerHTML = `
