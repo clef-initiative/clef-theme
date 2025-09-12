@@ -2,10 +2,11 @@
 {{ $gray := .Site.Params.gray | default "stone" }}
 
 {{ if .Site.Params.hero_image }}
+  {{ $image := resources.Get .Site.Params.hero_image }}
   <div class="
     w-full
     h-64 md:h-72
-    bg-[url({{ .Site.Params.hero_image }})]
+    bg-[url({{ $image.RelPermalink }})]
     bg-no-repeat
     bg-center
     bg-cover
@@ -36,13 +37,15 @@
       items-center
       flex
     ">
+      {{ with resources.Get .Site.Params.logo }}
       <img class="
         h-24
         md:h-20
         max-w-full
         mx-auto
         object-scale-down
-      " src="{{ .Site.Params.logo }}" alt="Logo">
+      " src="{{ .RelPermalink }}" alt="Logo">
+      {{ end }}
     </div>
     <div class="
       bg-{{ .Site.Params.color }}-700 dark:bg-{{ .Site.Params.color }}-700

@@ -2,11 +2,12 @@
     {{ $color := .Site.Params.color | default "stone" }}
     {{ $gray := .Site.Params.gray | default "stone" }}
     {{ $image := .Params.image | default .Site.Params.hero_image | default "" }}
+    {{ $image := resources.Get $image }}
     {{ if $image }}
       <div class="
         w-full
         h-64 md:h-72
-        bg-[url({{ $image }})]
+        bg-[url({{ $image.RelPermalink }})]
         bg-no-repeat
         bg-center
         bg-cover

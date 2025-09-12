@@ -2,12 +2,14 @@
 {{ $gray := .Site.Params.gray | default "stone" }}
 
 {{ $src := .Get "src" }}
+{{ $size := .Get "size" }}
 {{ $alt := .Get "alt" | default "" }}
 {{ $caption := .Get "caption" | default "" }}
 {{ $attribution := .Get "attribution" | default "" }}
 {{ $width := .Get "width" | default "full" }}
 {{ $classes := .Get "classes" | default "" }}
 {{ $float := .Get "float" | default "center" }}
+
 
 {{ $floatClasses := "" }}
 {{ if eq $float "left" }}
@@ -39,13 +41,17 @@
 
 {{ $allClasses := printf "m-0 p-0 %s %s %s" $widthClasses $floatClasses $classes }}
 
+{{ with $image := resources.Get $src }}
+  {{ if $size }}
+  {{ $image = $image.Fill $size }}
+  {{ end }}
 <!-- Image figure component -->
 <figure class="{{ $allClasses }}" itemscope itemtype="https://schema.org/ImageObject">
 
   <!-- Image element -->
   <div class="overflow-hidden rounded-xl">
     <img
-      src="{{ $src }}"
+      src="{{ $image.RelPermalink }}"
       alt="{{ $alt }}"
       class="w-full h-auto object-cover m-0 p-0"
       loading="lazy"
@@ -75,3 +81,4 @@
   {{ end }}
 
 </figure>
+{{ end }}
