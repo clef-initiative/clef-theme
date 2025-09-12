@@ -41,9 +41,10 @@
 
 {{ $allClasses := printf "m-0 p-0 %s %s %s" $widthClasses $floatClasses $classes }}
 
-{{ with $image := resources.Get $src }}
+{{ with $image := resources.Get $src | default $src }}
   {{ if $size }}
-  {{ $image = $image.Fill $size }}
+    {{ $image = $image.Fill $size }}
+    {{ $image = $image.RelPermalink }}
   {{ end }}
 <!-- Image figure component -->
 <figure class="{{ $allClasses }}" itemscope itemtype="https://schema.org/ImageObject">
@@ -51,7 +52,7 @@
   <!-- Image element -->
   <div class="overflow-hidden rounded-xl">
     <img
-      src="{{ $image.RelPermalink }}"
+      src="{{ $image }}"
       alt="{{ $alt }}"
       class="w-full h-auto object-cover m-0 p-0"
       loading="lazy"
