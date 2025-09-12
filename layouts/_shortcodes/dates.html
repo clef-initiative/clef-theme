@@ -1,8 +1,23 @@
 {{/* layouts/shortcodes/dates.html */}}
 {{ $color := .Site.Params.color | default "stone" }}
 {{ $gray := .Site.Params.gray | default "stone" }}
-{{ $key := .Get "key" }}
-{{ $dateData := index .Site.Data.dates $key }}
+{{ $key := .Get "key" | default "all" }}
+{{ $past := .Get "past" | default "strike" }}
+{{ $dateData := dict }}
+{{ if eq $key "all" }}
+  {{ $mergedDates := slice }}
+  {{ range .Site.Data.dates }}
+    {{ range .dates }}
+      {{ $mergedDates = $mergedDates | append . }}
+    {{ end }}
+  {{ end }}
+  {{ $sortedDates := sort $mergedDates "date" }}
+  {{ $dateData = dict "dates" $sortedDates }}
+{{ else }}
+  {{ $originalData := index .Site.Data.dates $key }}
+  {{ $sortedDates := sort $originalData.dates "date" }}
+  {{ $dateData = dict "dates" $sortedDates "timezone" $originalData.timezone }}
+{{ end }}
 
 {{ if $dateData }}
   <!-- Dates table component -->
@@ -38,18 +53,23 @@
             {{ $isPast := lt $daysDiff -1 }}
             {{ $isFuture := gt $daysDiff 0 }}
 
-            <tr class="hover:bg-{{ $gray }}-100 dark:hover:bg-{{ $gray }}-700 transition-colors {{ if $isPast }}opacity-60{{ end }}">
+            {{/* Skip past dates if past="omit" */}}
+            {{ if and $isPast (eq $past "omit") }}
+              {{ continue }}
+            {{ end }}
+
+            <tr class="hover:bg-{{ $gray }}-100 dark:hover:bg-{{ $gray }}-700 transition-colors {{ if and $isPast (eq $past "strike") }}opacity-60{{ end }}">
 
               <!-- Event name -->
               <td class="p-2 whitespace-nowrap">
-                <div class="text-{{ $gray }}-900 dark:text-{{ $gray }}-100 {{ if $isPast }}line-through{{ end }}">
+                <div class="text-{{ $gray }}-900 dark:text-{{ $gray }}-100 {{ if and $isPast (eq $past "strike") }}line-through{{ end }}">
                   {{ $item.name }}
                 </div>
               </td>
 
               <!-- Event date -->
               <td class="p-2 whitespace-nowrap">
-                <time datetime="{{ $item.date }}" class="text-{{ $gray }}-700 dark:text-{{ $gray }}-300 {{ if $isPast }}line-through{{ end }}">
+                <time datetime="{{ $item.date }}" class="text-{{ $gray }}-700 dark:text-{{ $gray }}-300 {{ if and $isPast (eq $past "strike") }}line-through{{ end }}">
                   {{ $eventDate.Format "January 2, 2006" }}
                 </time>
               </td>
@@ -80,7 +100,7 @@
     <!-- Timezone note -->
     {{ if $dateData.timezone }}
     <div class="border-t border-{{ $gray }}-200 dark:border-{{ $gray }}-700 p-2 bg-{{ $gray }}-50 dark:bg-{{ $gray }}-800">
-      <span class="text-{{ $gray }}-600 dark:text-{{ $gray }}-400">
+      <span class="text-sm text-{{ $gray }}-600 dark:text-{{ $gray }}-400">
         All times are in {{ $dateData.timezone }} timezone.
       </span>
     </div>
