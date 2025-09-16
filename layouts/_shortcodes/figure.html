@@ -17,7 +17,7 @@
 {{ else if eq $float "right" }}
   {{ $floatClasses = "md:float-right md:ml-6 md:clear-right mx-auto" }}
 {{ else }}
-  {{ $floatClasses = "mx-auto mb-6 clear-both" }}
+  {{ $floatClasses = "mx-auto clear-both" }}
 {{ end }}
 
 {{ $widthClasses := "" }}
@@ -39,7 +39,7 @@
   {{ $widthClasses = "w-full" }}
 {{ end }}
 
-{{ $allClasses := printf "m-0 p-0 %s %s %s" $widthClasses $floatClasses $classes }}
+{{ $allClasses := printf "%s %s %s" $widthClasses $floatClasses $classes }}
 
 {{ with $image := resources.Get $src | default $src }}
   {{ if $size }}
@@ -50,11 +50,10 @@
 <figure class="{{ $allClasses }}" itemscope itemtype="https://schema.org/ImageObject">
 
   <!-- Image element -->
-  <div class="overflow-hidden rounded-xl">
+  <div class="rounded-xl">
     <img
       src="{{ $image }}"
       alt="{{ $alt }}"
-      class="w-full h-auto object-cover m-0 p-0"
       loading="lazy"
       decoding="async"
       {{ if $caption }}
@@ -73,7 +72,7 @@
   <!-- Image caption -->
   {{ if $caption }}
     <figcaption
-      class="m-0 pt-1 text-sm text-{{ $gray }}-600 dark:text-{{ $gray }}-400 text-center leading-relaxed"
+      class="text-center"
       id="caption-{{ $src | urlize }}"
       itemprop="caption"
     >
