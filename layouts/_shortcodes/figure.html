@@ -41,26 +41,47 @@
 
 {{ $allClasses := printf "%s %s %s" $widthClasses $floatClasses $classes }}
 
-{{ with $image := resources.Get $src | default $src }}
-  {{ if $size }}
-    {{ $image = $image.Fill $size }}
-    {{ $image = $image.RelPermalink }}
-  {{ end }}
 <!-- Image figure component -->
 <figure class="{{ $allClasses }}" itemscope itemtype="https://schema.org/ImageObject">
 
   <!-- Image element -->
   <div class="rounded-xl">
-    <img
-      src="{{ $image }}"
-      alt="{{ $alt }}"
-      loading="lazy"
-      decoding="async"
-      {{ if $caption }}
-      aria-describedby="caption-{{ $src | urlize }}"
+    {{ with $image := resources.Get $src }}
+      {{ if $image }}
+        {{ if eq .MediaType.SubType "svg" }}
+          <!-- Image is SVG, directly include -->
+          {{ .Content | safeHTML }}
+        {{ else }}
+          <!-- Image is raster-based, include via img and resize if given -->
+          {{ if $size }}
+            {{ $image = $image.Fill $size }}
+            {{ $image = $image.RelPermalink }}
+          {{ end }}
+          <img
+            src="{{ $image }}"
+            alt="{{ $alt }}"
+            loading="lazy"
+            decoding="async"
+            {{ if $caption }}
+            aria-describedby="caption-{{ $src | urlize }}"
+            {{ end }}
+            itemprop="contentUrl"
+          />
+        {{ end }}
+      {{ else }}
+        <!-- Image is external URL, we cant load it as resource -->
+        <img
+          src="{{ $src }}"
+          alt="{{ $alt }}"
+          loading="lazy"
+          decoding="async"
+          {{ if $caption }}
+          aria-describedby="caption-{{ $src | urlize }}"
+          {{ end }}
+          itemprop="contentUrl"
+        />
       {{ end }}
-      itemprop="contentUrl"
-    />
+    {{ end }}
     <!-- Attribution overlay -->
     {{ if $attribution }}
       <div class="bg-black/70 text-white text-right text-xs -mt-12 px-2 py-1 rounded-b-xl backdrop-blur-sm opacity-50 hover:opacity-100 transition-opacity duration-200">
@@ -79,6 +100,4 @@
       {{ $caption | markdownify }}
     </figcaption>
   {{ end }}
-
 </figure>
-{{ end }}
