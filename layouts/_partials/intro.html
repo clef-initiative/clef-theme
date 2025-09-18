@@ -3,11 +3,16 @@
     {{ $gray := .Site.Params.gray | default "stone" }}
     {{ $image := .Params.image | default .Site.Params.hero_image | default "" }}
     {{ $image := resources.Get $image }}
+    {{ $imageDark := .Params.image_dark | default .Site.Params.hero_image_dark | default "" }}
+    {{ $imageDark := resources.Get $imageDark }}
     {{ if $image }}
       <div class="
         w-full
         h-64 md:h-72
         bg-[url({{ $image.RelPermalink }})]
+        {{ if $imageDark }}
+        dark:bg-[url({{ $imageDark.RelPermalink }})]
+        {{ end }}
         bg-no-repeat
         bg-center
         bg-cover

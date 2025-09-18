@@ -1,14 +1,16 @@
 {{ $color := .Site.Params.color | default "stone" }}
 {{ $gray := .Site.Params.gray | default "stone" }}
 
-{{ if .Site.Params.hero_image }}
-  {{ $image := resources.Get .Site.Params.hero_image }}
+{{ $image := .Site.Params.hero_image | default "" }}
+{{ $image := resources.Get $image }}
+{{ $imageDark := .Site.Params.hero_image_dark | default "" }}
+{{ $imageDark := resources.Get $imageDark }}
+{{ if $image }}
   <div class="
     w-full
     h-64 md:h-72
     bg-[url({{ $image.RelPermalink }})]
-    {{ if .Site.Params.hero_image_dark }}
-    {{ $imageDark := resources.Get .Site.Params.hero_image_dark }}
+    {{ if $imageDark }}
     dark:bg-[url({{ $imageDark.RelPermalink }})]
     {{ end }}
     bg-no-repeat
