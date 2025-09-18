@@ -7,6 +7,10 @@
     w-full
     h-64 md:h-72
     bg-[url({{ $image.RelPermalink }})]
+    {{ if .Site.Params.hero_image_dark }}
+    {{ $imageDark := resources.Get .Site.Params.hero_image_dark }}
+    dark:bg-[url({{ $imageDark.RelPermalink }})]
+    {{ end }}
     bg-no-repeat
     bg-center
     bg-cover
