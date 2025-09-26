@@ -46,8 +46,20 @@
 
   <!-- Image element -->
   <div class="rounded-xl">
-    {{ with $image := resources.Get $src }}
-      {{ if $image }}
+    {{ if hasPrefix $src "http" }}
+      <!-- Image is external URL, we can load it directly -->
+        <img
+          src="{{ $src }}"
+          alt="{{ $alt }}"
+          loading="lazy"
+          decoding="async"
+          {{ if $caption }}
+          aria-describedby="caption-{{ $src | urlize }}"
+          {{ end }}
+          itemprop="contentUrl"
+        />
+    {{ else }}
+      {{ with $image := resources.Get $src }}
         {{ if eq .MediaType.SubType "svg" }}
           <!-- Image is SVG, directly include -->
           {{ .Content | safeHTML }}
@@ -68,18 +80,6 @@
             itemprop="contentUrl"
           />
         {{ end }}
-      {{ else }}
-        <!-- Image is external URL, we cant load it as resource -->
-        <img
-          src="{{ $src }}"
-          alt="{{ $alt }}"
-          loading="lazy"
-          decoding="async"
-          {{ if $caption }}
-          aria-describedby="caption-{{ $src | urlize }}"
-          {{ end }}
-          itemprop="contentUrl"
-        />
       {{ end }}
     {{ end }}
     <!-- Attribution overlay -->
