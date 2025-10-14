@@ -21,7 +21,7 @@
 
 {{ if $dateData }}
   <!-- Dates table component -->
-  <div class="overflow-hidden max-w-full rounded-xl border border-{{ $gray }}-200 dark:border-{{ $gray }}-700 bg-{{ $gray }}-50 dark:bg-{{ $gray }}-800">
+  <div class="overflow-hidden max-w-full rounded-xl border border-{{ $gray }}-200 dark:border-{{ $gray }}-700 bg-{{ $gray }}-50 dark:bg-{{ $gray }}-800" data-dates-table data-past-mode="{{ $past }}" data-gray="{{ $gray }}">
 
     <!-- Table container -->
     <div class="overflow-x-auto">
@@ -46,49 +46,28 @@
         <tbody class="">
           {{ range $index, $item := $dateData.dates }}
             {{ $eventDate := time $item.date }}
-            {{ $today := now }}
-            {{ $daysUntil := $eventDate.Sub $today }}
-            {{ $daysDiff := div $daysUntil.Hours 24 }}
 
-            {{ $isPast := lt $daysDiff -1 }}
-            {{ $isFuture := gt $daysDiff 0 }}
-
-            {{/* Skip past dates if past="omit" */}}
-            {{ if and $isPast (eq $past "omit") }}
-              {{ continue }}
-            {{ end }}
-
-            <tr class="hover:bg-{{ $gray }}-100 dark:hover:bg-{{ $gray }}-700 transition-colors {{ if and $isPast (eq $past "strike") }}opacity-60{{ end }}">
+            <tr data-date="{{ $item.date }}" class="hover:bg-{{ $gray }}-100 dark:hover:bg-{{ $gray }}-700 transition-colors">
 
               <!-- Event name -->
               <td class="p-2 whitespace-nowrap">
-                <div class="text-{{ $gray }}-900 dark:text-{{ $gray }}-100 {{ if and $isPast (eq $past "strike") }}line-through{{ end }}">
+                <div class="event-name text-{{ $gray }}-900 dark:text-{{ $gray }}-100">
                   {{ $item.name }}
                 </div>
               </td>
 
               <!-- Event date -->
               <td class="p-2 whitespace-nowrap">
-                <time datetime="{{ $item.date }}" class="text-{{ $gray }}-700 dark:text-{{ $gray }}-300 {{ if and $isPast (eq $past "strike") }}line-through{{ end }}">
+                <time datetime="{{ $item.date }}" class="event-date text-{{ $gray }}-700 dark:text-{{ $gray }}-300">
                   {{ $eventDate.Format "January 2, 2006" }}
                 </time>
               </td>
 
               <!-- Event status -->
               <td class="p-2 whitespace-nowrap">
-                {{ if $isFuture }}
-                  <span class="inline-flex items-center px-3 py-1 rounded-xl bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
-                    {{ $daysDiff | lang.FormatNumber 0 }}{{ if le $daysDiff 1 }} day{{ else }} days{{ end }}
-                  </span>
-                {{ else if $isPast }}
-                  <span class="inline-flex items-center px-3 py-1 rounded-xl bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
-                    Passed
-                  </span>
-                {{ else }}
-                  <span class="inline-flex items-center px-3 py-1 rounded-xl bg-yellow-100 text-yellow-800 dark:bg-yellow-400 dark:text-yellow-900">
-                    Today
-                  </span>
-                {{ end }}
+                <span class="event-status inline-flex items-center px-3 py-1 rounded-xl">
+                  <!-- Updated by JavaScript -->
+                </span>
               </td>
 
             </tr>
@@ -107,6 +86,82 @@
     {{ end }}
 
   </div>
+
+  <!-- Client-side date calculation script -->
+  <script>
+    (function() {
+      function updateDateStatuses() {
+        const tables = document.querySelectorAll('[data-dates-table]');
+
+        tables.forEach(table => {
+          const pastMode = table.dataset.pastMode;
+          const gray = table.dataset.gray;
+          const rows = table.querySelectorAll('tbody tr[data-date]');
+
+          rows.forEach(row => {
+            const dateStr = row.dataset.date;
+            const eventDate = new Date(dateStr + 'T23:59:59Z'); // End of day in UTC (AoE compatible)
+            const now = new Date();
+
+            // Calculate days difference
+            const msPerDay = 24 * 60 * 60 * 1000;
+            const daysDiff = Math.floor((eventDate - now) / msPerDay);
+
+            const isPast = daysDiff < 0;
+            const isFuture = daysDiff > 0;
+            const isToday = daysDiff === 0;
+
+            const eventName = row.querySelector('.event-name');
+            const eventDateEl = row.querySelector('.event-date');
+            const statusEl = row.querySelector('.event-status');
+
+            // Handle past dates styling based on pastMode
+            if (isPast && pastMode === 'omit') {
+              row.style.display = 'none';
+              return;
+            }
+
+            if (isPast && pastMode === 'strike') {
+              row.classList.add('opacity-60');
+              eventName.classList.add('line-through');
+              eventDateEl.classList.add('line-through');
+            } else {
+              row.classList.remove('opacity-60');
+              eventName.classList.remove('line-through');
+              eventDateEl.classList.remove('line-through');
+            }
+
+            // Update status badge
+            if (isFuture) {
+              const dayText = daysDiff === 1 ? ' day' : ' days';
+              statusEl.textContent = daysDiff + dayText;
+              statusEl.className = 'event-status inline-flex items-center px-3 py-1 rounded-xl bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100';
+            } else if (isPast) {
+              statusEl.textContent = 'Passed';
+              statusEl.className = 'event-status inline-flex items-center px-3 py-1 rounded-xl bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100';
+            } else {
+              statusEl.textContent = 'Today';
+              statusEl.className = 'event-status inline-flex items-center px-3 py-1 rounded-xl bg-yellow-100 text-yellow-800 dark:bg-yellow-400 dark:text-yellow-900';
+            }
+          });
+        });
+      }
+
+      // Update on page load
+      updateDateStatuses();
+
+      // Update daily at midnight
+      const now = new Date();
+      const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      const msUntilMidnight = tomorrow - now;
+
+      setTimeout(function() {
+        updateDateStatuses();
+        // Then update every 24 hours
+        setInterval(updateDateStatuses, 24 * 60 * 60 * 1000);
+      }, msUntilMidnight);
+    })();
+  </script>
 {{ else }}
   <!-- Error state using alert pattern -->
   <div class="w-full px-4 py-4 rounded-xl border border-red-200 bg-red-50 text-red-800 dark:border-red-700 dark:bg-red-900 dark:text-red-200" role="alert" aria-live="polite">
