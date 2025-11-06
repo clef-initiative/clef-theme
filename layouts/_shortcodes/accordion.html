@@ -2,11 +2,12 @@
 {{ $color := .Site.Params.color | default "stone" }}
 {{ $gray := .Site.Params.gray | default "stone" }}
 {{ $accordionId := .Get "id" | default (printf "accordion-%d" now.Unix) }}
+{{ $openAll := .Get "open_all" | default "false" }}
 
 <!-- Accordion Component -->
 <div class="space-y-6">
   <div class="bg-{{ $gray }}-50 dark:bg-{{ $gray }}-800 rounded-xl border border-{{ $gray }}-200 dark:border-{{ $gray }}-700 overflow-hidden">
-    <div class="divide-y divide-{{ $gray }}-200 dark:divide-{{ $gray }}-700" role="tablist" aria-label="Accordion" data-accordion-group="{{ $accordionId }}">
+    <div class="divide-y divide-{{ $gray }}-200 dark:divide-{{ $gray }}-700" role="tablist" aria-label="Accordion" data-accordion-group="{{ $accordionId }}" data-open-all="{{ $openAll }}">
       {{ .Inner }}
     </div>
   </div>
@@ -17,19 +18,30 @@
   const accordionGroup = document.querySelector('[data-accordion-group="{{ $accordionId }}"]');
   if (!accordionGroup) return;
 
+  const openAll = accordionGroup.getAttribute('data-open-all') === 'true';
   const accordionItems = accordionGroup.querySelectorAll('details[data-accordion-item]');
 
-  accordionItems.forEach(item => {
-    item.addEventListener('toggle', function() {
-      if (this.open) {
-        // Close all other accordion items in this group
-        accordionItems.forEach(otherItem => {
-          if (otherItem !== this && otherItem.open) {
-            otherItem.open = false;
-          }
-        });
-      }
+  // If open_all is true, open all items on load
+  if (openAll) {
+    accordionItems.forEach(item => {
+      item.open = true;
     });
-  });
+  }
+
+  // Only add toggle behavior if open_all is false (mutual exclusion mode)
+  if (!openAll) {
+    accordionItems.forEach(item => {
+      item.addEventListener('toggle', function() {
+        if (this.open) {
+          // Close all other accordion items in this group
+          accordionItems.forEach(otherItem => {
+            if (otherItem !== this && otherItem.open) {
+              otherItem.open = false;
+            }
+          });
+        }
+      });
+    });
+  }
 })();
 </script>
