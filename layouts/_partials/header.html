@@ -18,40 +18,40 @@
       <!-- Desktop navigation -->
       <nav class="hidden md:flex items-center gap-1 ml-auto my-0">
         {{ range .Site.Menus.main }}
-        {{ if .HasChildren }}
-        <!-- Desktop dropdown -->
-        <div class="relative group">
-          <a
-            href="{{ .URL }}"
-            class="rounded-t-xl -mb-2 p-4 font-semibold transition-all duration-300 ease-out  text-{{ $gray }}-700 hover:text-{{ $gray }}-900 group-hover:bg-{{ $gray }}-50 dark:text-{{ $gray }}-300 dark:group-hover:text-{{ $gray }}-100 dark:group-hover:bg-{{ $gray }}-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 flex items-center gap-1"
-          >
-            {{ .Name }}
-            <svg class="size-5 text-{{ $gray }}-400 transition-none duration-200 group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m6 9 6 6 6-6"/>
-            </svg>
-          </a>
-          <div class="absolute top-full left-0 transition-all duration-300 ease-out  group-last:left-auto group-last:right-0 mt-2 w-64 bg-{{ $gray }}-50 mt-1 dark:bg-{{ $gray }}-800 rounded-b-xl shadow-xl border-t-4 border-{{ $color }}-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 max-h-[calc(100vh-6rem)] overflow-y-auto">
-            {{ range .Children }}
-            {{ $childActive := $currentPage.IsMenuCurrent "main" . }}
+          {{ if .HasChildren }}
+            <!-- Desktop dropdown -->
+            <div class="relative group">
             <a
               href="{{ .URL }}"
-              class="block rounded-lg m-1 space-y-1 px-2 py-1.5 text-md text-{{ $gray }}-700 hover:text-{{ $gray }}-900 hover:bg-{{ $gray }}-200 dark:text-{{ $gray }}-300 dark:hover:text-{{ $gray }}-100 dark:hover:bg-{{ $gray }}-700 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 {{ if $childActive }}font-semibold{{ end }}"
+              class="rounded-t-xl -mb-2 p-4 font-semibold transition-all duration-300 ease-out  text-{{ $gray }}-700 hover:text-{{ $gray }}-900 group-hover:bg-{{ $gray }}-50 dark:text-{{ $gray }}-300 dark:group-hover:text-{{ $gray }}-100 dark:group-hover:bg-{{ $gray }}-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 flex items-center gap-1"
+            >
+              {{ .Name }}
+              <svg class="size-5 text-{{ $gray }}-400 transition-none duration-200 group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </a>
+            <div class="absolute top-full left-0 transition-all duration-300 ease-out  group-last:left-auto group-last:right-0 mt-2 w-64 bg-{{ $gray }}-50 mt-1 dark:bg-{{ $gray }}-800 rounded-b-xl shadow-xl border-t-4 border-{{ $color }}-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 max-h-[calc(100vh-6rem)] overflow-y-auto">
+              {{ range .Children }}
+              {{ $childActive := $currentPage.IsMenuCurrent "main" . }}
+              <a
+                href="{{ .URL }}"
+                class="block rounded-lg m-1 space-y-1 px-2 py-1.5 text-md text-{{ $gray }}-700 hover:text-{{ $gray }}-900 hover:bg-{{ $gray }}-200 dark:text-{{ $gray }}-300 dark:hover:text-{{ $gray }}-100 dark:hover:bg-{{ $gray }}-700 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 {{ if $childActive }}font-semibold{{ end }}"
+              >
+                {{ .Name }}
+              </a>
+              {{ end }}
+            </div>
+          </div>
+          {{ else }}
+            <!-- Direct link -->
+            {{ $isActive := $currentPage.IsMenuCurrent "main" . }}
+            <a
+              href="{{ .URL }}"
+              class="rounded-t-xl -mb-2 p-4 font-semibold text-{{ $gray }}-700 hover:text-{{ $gray }}-900 hover:bg-{{ $gray }}-50 dark:text-{{ $gray }}-300 dark:hover:text-{{ $gray }}-100 dark:hover:bg-{{ $gray }}-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
             >
               {{ .Name }}
             </a>
-            {{ end }}
-          </div>
-        </div>
-        {{ else }}
-        <!-- Direct link -->
-        {{ $isActive := $currentPage.IsMenuCurrent "main" . }}
-        <a
-          href="{{ .URL }}"
-          class="rounded-t-xl -mb-2 p-4 font-semibold text-{{ $gray }}-700 hover:text-{{ $gray }}-900 hover:bg-{{ $gray }}-50 dark:text-{{ $gray }}-300 dark:hover:text-{{ $gray }}-100 dark:hover:bg-{{ $gray }}-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
-        >
-          {{ .Name }}
-        </a>
-        {{ end }}
+          {{ end }}
         {{ end }}
       </nav>
 
