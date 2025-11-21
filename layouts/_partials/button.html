@@ -39,6 +39,8 @@
   {{ $typeClass = printf "no-underline bg-%s-200 text-%s-900 hover:bg-%s-300 dark:bg-%s-700 dark:text-%s-100 dark:hover:bg-%s-600" $gray $gray $gray $gray $gray $gray }}
 {{ else if eq $type "outline" }}
   {{ $typeClass = printf "no-underline border border-%s-200 text-%s-700 hover:text-%s-900 hover:bg-%s-50 dark:border-%s-700 dark:text-%s-300 dark:hover:text-%s-100 dark:hover:bg-%s-800" $gray $gray $gray $gray $gray $gray $gray $gray }}
+{{ else if eq $type "disabled" }}
+  {{ $typeClass = printf "cursor-not-allowed no-underline border border-%s-300 text-%s-500 dark:border-%s-600 dark:text-%s-500" $gray $gray $gray $gray $gray $gray $gray $gray }}
 {{ else if eq $type "ghost" }}
   {{ $typeClass = printf "no-underline text-%s-700 hover:text-%s-900 hover:bg-%s-50 dark:text-%s-300 dark:hover:text-%s-100 dark:hover:bg-%s-800" $gray $gray $gray $gray $gray $gray }}
 {{ else if eq $type "destructive" }}

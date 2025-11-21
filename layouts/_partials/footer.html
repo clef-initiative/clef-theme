@@ -94,6 +94,7 @@
     </div>
   </div>
   <div class="md:max-w-2xl max-w-full mx-auto my-8 px-4 flex flex-row items-stretch flex-wrap justify-center items-top gap-4">
+    <div class="flex-1"></div>
     {{ with .Site.Params.registration.lab }}
       {{ partial "button.html" (dict
         "href" .
@@ -103,6 +104,14 @@
         "content" "Register for a lab"
         "icon" "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='3' stroke='currentColor' class='size-3'><path stroke-linecap='round' stroke-linejoin='round' d='m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25' /></svg>"
       ) }}
+    {{ else }}
+      {{ partial "button.html" (dict
+        "href" .
+        "type" "disabled"
+        "size" "xs"
+        "class" "flex-1 h-4"
+        "content" "Register for a lab"
+      ) }}
     {{ end }}
 
     {{ with .Site.Params.registration.conference }}
@@ -110,9 +119,17 @@
         "href" .
         "type" "primary"
         "size" "xs"
-        "class" "flex-1 h-4 max-w-48"
+        "class" "flex-1 h-4"
         "content" "Conference Registration"
         "icon" "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='3' stroke='currentColor' class='size-3'><path stroke-linecap='round' stroke-linejoin='round' d='m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25' /></svg>"
+      ) }}
+    {{ else }}
+      {{ partial "button.html" (dict
+        "href" ""
+        "type" "disabled"
+        "size" "xs"
+        "class" "flex-1 h-4 max-w-48"
+        "content" "Conference Registration"
       ) }}
     {{ end }}
   </div>
