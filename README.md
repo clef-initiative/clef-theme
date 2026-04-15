@@ -22,3 +22,6 @@ hugo
 
 This will create a `public` directory where the rendered static site is located.
 
+## Usage Outside CLEF
+
+This theme is licensed under an [MIT License](LICENSE). Feel free to use it. We would be delighted if you acknowledge CLEF if you do, for example with a link back to this repository. 
