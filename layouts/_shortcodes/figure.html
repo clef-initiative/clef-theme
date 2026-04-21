@@ -2,6 +2,7 @@
 {{ $gray := .Site.Params.gray | default "stone" }}
 
 {{ $src := .Get "src" }}
+{{ $srcDark := .Get "src-dark" }}
 {{ $size := .Get "size" }}
 {{ $alt := .Get "alt" | default "" }}
 {{ $caption := .Get "caption" | default "" }}
@@ -57,12 +58,33 @@
           aria-describedby="caption-{{ $src | urlize }}"
           {{ end }}
           itemprop="contentUrl"
+          {{ if $srcDark }}class="dark:hidden"{{ end }}
         />
+        {{ if $srcDark }}
+        <img
+          src="{{ $srcDark }}"
+          alt="{{ $alt }}"
+          loading="lazy"
+          decoding="async"
+          {{ if $caption }}
+          aria-describedby="caption-{{ $src | urlize }}"
+          {{ end }}
+          itemprop="contentUrl"
+          class="hidden dark:block"
+        />
+        {{ end }}
     {{ else }}
       {{ with $image := resources.Get $src }}
         {{ if eq .MediaType.SubType "svg" }}
           <!-- Image is SVG, directly include -->
+          {{ if $srcDark }}
+          <div class="dark:hidden">{{ .Content | safeHTML }}</div>
+          {{ with $imageDark := resources.Get $srcDark }}
+          <div class="hidden dark:block">{{ .Content | safeHTML }}</div>
+          {{ end }}
+          {{ else }}
           {{ .Content | safeHTML }}
+          {{ end }}
         {{ else }}
           <!-- Image is raster-based, include via img and resize if given -->
           {{ if $size }}
@@ -78,7 +100,28 @@
             aria-describedby="caption-{{ $src | urlize }}"
             {{ end }}
             itemprop="contentUrl"
+            {{ if $srcDark }}class="dark:hidden"{{ end }}
           />
+          {{ if $srcDark }}
+          {{ with $imageDark := resources.Get $srcDark }}
+            {{ $imageDarkSrc := $imageDark }}
+            {{ if $size }}
+              {{ $imageDarkSrc = $imageDark.Fill $size }}
+              {{ $imageDarkSrc = $imageDarkSrc.RelPermalink }}
+            {{ end }}
+            <img
+              src="{{ $imageDarkSrc }}"
+              alt="{{ $alt }}"
+              loading="lazy"
+              decoding="async"
+              {{ if $caption }}
+              aria-describedby="caption-{{ $src | urlize }}"
+              {{ end }}
+              itemprop="contentUrl"
+              class="hidden dark:block"
+            />
+          {{ end }}
+          {{ end }}
         {{ end }}
       {{ end }}
     {{ end }}
